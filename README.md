@@ -12,7 +12,8 @@ This Program uses Go and requires a Golang installation, and only works on Linux
 
 Option 1: The webi installer is the simplest way for most people. Just run this in your terminal:
 
-curl -sS https://webi.sh/golang | sh
+- curl -sS https://webi.sh/golang | sh
+
 Read the output of the command and follow any instructions.
 
 2. Clone the Repo
