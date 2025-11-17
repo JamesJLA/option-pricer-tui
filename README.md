@@ -5,7 +5,7 @@ Returns two heatmaps representing the profit/ loss of the call and put
 
 User can edit any of the values and re-compute both heatmaps
 
-Instructions
+# Instructions
 
 - go build ./
 - ./option-pricer-tui
