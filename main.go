@@ -82,7 +82,7 @@ type model struct {
 }
 
 func initialModel() model {
-	return model{S: 100.0, K: 100.0, T: 1.0, r: 0.05, q: 0.0, v: 0.2, editing: false, input: "", focus: 0}
+	return model{S: 100.0, K: 100.0, T: 1.0, r: 0.05, q: 0.02, v: 0.2, editing: false, input: "", focus: 0}
 }
 
 func (m model) Init() tea.Cmd { return nil }
@@ -217,10 +217,10 @@ func (m model) View() string {
 	fields := []string{
 		fmt.Sprintf("S (spot): %g", m.S),
 		fmt.Sprintf("K (strike): %g", m.K),
-		fmt.Sprintf("T (yrs): %g", m.T),
-		fmt.Sprintf("r: %g", m.r),
-		fmt.Sprintf("q: %g", m.q),
-		fmt.Sprintf("v (sigma): %g", m.v),
+		fmt.Sprintf("T (maturity): %g", m.T),
+		fmt.Sprintf("r (risk-free rate): %g", m.r),
+		fmt.Sprintf("q (dividend yield): %g", m.q),
+		fmt.Sprintf("v (volatility): %g", m.v),
 	}
 	for i, f := range fields {
 		prefix := "  "
@@ -239,6 +239,10 @@ func (m model) View() string {
 	b.WriteString(fmt.Sprintf("%s Compute heatmaps (Enter)\n", prefix))
 	// Axis descriptions for the heatmaps
 	b.WriteString("X axis: v (volatility)   Y axis: S (spot price)\n\n")
+	// Current prices above heatmaps
+	currentCall := Calc(m.S, m.K, m.T, m.r, m.q, m.v, "call")
+	currentPut := Calc(m.S, m.K, m.T, m.r, m.q, m.v, "put")
+	b.WriteString(fmt.Sprintf("Current prices: Call = $%.2f, Put = $%.2f\n\n", currentCall, currentPut))
 	// Heatmaps rendering
 	if len(m.callData) > 0 && len(m.putData) > 0 {
 		callLines := renderColoredHeatmap(m.callData)
